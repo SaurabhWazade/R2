@@ -5,7 +5,22 @@ label {
 label "built-in"
 }
 }
+tools {
+maven "apache-maven-3.9.11"
+}
 stages {
+stage ('git') {
+steps {
+sh "git clone https://github.com/SaurabhWazade/project.git"
+}
+}
+stage ('maven') {
+steps { 
+dir ('project') {
+sh "mvn clean package"
+}
+}
+}
 stage ('scp'){
 steps {
    // Use Jenkins SSH credentials
