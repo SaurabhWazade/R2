@@ -22,7 +22,7 @@ pipeline {
                 sh """
                 git clone ${PROJECT_URL}
                 cd SprintBootService-1
-                mvn clean package
+                sudo mvn clean package
                 """
             }
         }
@@ -31,11 +31,11 @@ pipeline {
             steps {
                 sh """
                 git clone ${BD_URL}
-                cp SprintBootService-1/target/*.jar .
-                docker build -t ${IMAGE_NAME} .
-                docker push ${IMAGE_NAME}
-                kubectl apply -f deploy.yaml
-                kubectl apply -f service.yaml
+                sudo cp SprintBootService-1/target/*.jar .
+                sudo docker build -t ${IMAGE_NAME} .
+                sudo docker push ${IMAGE_NAME}
+                sudo kubectl apply -f deploy.yaml
+                sudo kubectl apply -f service.yaml
                 """
             }
         }
