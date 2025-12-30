@@ -10,7 +10,7 @@ maven "apache-maven-3.9.12"
 
 environment {
 project_url = "https://github.com/Shantanumajan6/SprintBootService-1.git"
-b&d_url = ""
+b&d_url = "https://github.com/SaurabhWazade/for-main-project.git"
 }
 
 stages {
