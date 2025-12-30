@@ -22,7 +22,7 @@ pipeline {
                 sh """
                 git clone ${PROJECT_URL}
                 cd SprintBootService-1
-                sudo mvn clean package
+                mvn clean package
                 """
             }
         }
