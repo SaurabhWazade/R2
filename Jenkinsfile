@@ -31,15 +31,16 @@ pipeline {
     steps {
         sh """
         git clone ${BD_URL}
-        cp SprintBootService-1/target/SpringBootExecutableJarFileDemo-0.0.1-SNAPSHOT.jar for-main-project/
+        cp SprintBootService-1/target/*.jar for-main-project/
         cd for-main-project
-        docker build -t saurabhwazade/project1:1.0 .
-        docker push saurabhwazade/project1:1.0
+        docker build -t saurabhwazade/project1:${BUILD_NUMBER} .
+        docker push saurabhwazade/project1:${BUILD_NUMBER}
         kubectl apply -f deploy.yaml
         kubectl apply -f service.yaml
         """
     }
 }
+
 
     }
 }
