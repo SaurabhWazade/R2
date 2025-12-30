@@ -1,37 +1,41 @@
-pipeline {
+Jenkinsfile
 
+pipeline {
 agent {
 label {
-label "built-in"
+label "dev"
 }
 }
 tools {
-maven "apache-maven-3.9.11"
+maven "apache-maven-3.9.12"
 }
+
+environment {
+project_url = "https://github.com/Shantanumajan6/SprintBootService-1.git"
+b&d_url = ""
+}
+
 stages {
-stage ('git') {
+stage('build') {
 steps {
-sh "git clone https://github.com/SaurabhWazade/project.git"
+sh """rm -rf *
+git clone ${project_url}
+cd SprintBootService-1
+mvn clean package
+cd /mnt/test
+cp -r sprintBootService1-1/project/SpringBootExecutableJarFileDemo-0.0.1-SNAPSHOT.jar .
+"""
 }
+
 }
-stage ('maven') {
-steps { 
-dir ('project') {
-sh "mvn clean package"
-}
-}
-}
-stage ('scp'){
+stage('B&D') {
 steps {
-   // Use Jenkins SSH credentials
-                withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key', 
-                                                   keyFileVariable: 'SSH_KEY',
-                                                   usernameVariable: 'SSH_USER')]) {
-                    sh '''
-                    scp -o StrictHostKeyChecking=no -i $SSH_KEY project/target/LoginWebApp.war \
-                    $SSH_USER@172.31.12.110:/mnt/servers/apache-tomcat-10.1.48/webapps/
-                    '''
-}
+sh "cd /mnt/test
+git clone ${b&d_url}
+docker build -t saurabhwazade/project1:1.0 .
+docker push saurabhwazade/project1:1.0
+kubectl apply -f deploy.yaml
+kubectl apply -f service.yaml"
 }
 }
 }
