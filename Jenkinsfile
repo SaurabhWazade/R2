@@ -27,17 +27,19 @@ pipeline {
             }
         }
 
-        stage('Build & Deploy') {
-            steps {
-                sh """
-                git clone ${BD_URL}
-                sudo cp SprintBootService-1/target/*.jar .
-                sudo docker build -t ${IMAGE_NAME} .
-                sudo docker push ${IMAGE_NAME}
-                sudo kubectl apply -f deploy.yaml
-                sudo kubectl apply -f service.yaml
-                """
-            }
-        }
+       stage('Build & Deploy') {
+    steps {
+        sh """
+        git clone ${BD_URL}
+        cp SprintBootService-1/target/SpringBootExecutableJarFileDemo-0.0.1-SNAPSHOT.jar for-main-project/
+        cd for-main-project
+        docker build -t saurabhwazade/project1:1.0 .
+        docker push saurabhwazade/project1:1.0
+        kubectl apply -f deploy.yaml
+        kubectl apply -f service.yaml
+        """
+    }
+}
+
     }
 }
