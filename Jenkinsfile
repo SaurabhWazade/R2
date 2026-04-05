@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label "dev1"
+        label "dev"
     }
 
     tools {
